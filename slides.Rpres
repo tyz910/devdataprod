@@ -1,29 +1,50 @@
-slides
+Titanic survival statistics
 ========================================================
-author: 
+author: Evgeny Ivanov
 date: `r date()`
 
-Slide 1
+About Titanic
 ========================================================
 
-text1
+The sinking of the Titanic is a famous event, and new books are still being published about it. Many well-known facts—from the proportions of first-class passengers to the ‘women and children first’ policy, and the fact that that policy was not entirely successful in saving the women and children in the third class—are reflected in the survival rates for various classes of passenger.
 
-Slide 2
+These data were originally collected by the British Board of Trade in their investigation of the sinking. Note that there is not complete agreement among primary sources as to the exact numbers on board, rescued, or lost.
+
+Data preview
 ========================================================
 
-text2
+```{r, echo=FALSE}
+mosaicplot(Titanic, main = "Survival on the Titanic")
+```
 
-Slide 3
+App Interface
 ========================================================
 
-text3
+![app](app.jpg)
 
-Slide 4
+Reactive calculation of survival stats
 ========================================================
 
-text4
+```{r, eval=FALSE}
+getSurvived <- function (class, age, sex) {
+  stats <- subset(data, Class == class & Sex == sex & Age == age)
+  survived <- list(
+    "Yes" = subset(stats, Survived == "Yes")[, "Freq"],
+    "No"  = subset(stats, Survived == "No")[, "Freq"]
+  )
 
-Slide 5
+  survived["Total"] <- survived$Yes + survived$No
+  if (survived$Total != 0) {
+    survived["Percent"] <- round(100 * survived$Yes / survived$Total)
+  } else {
+    survived["Percent"] <- 0
+  }
+
+  return(survived)
+}
+```
+
+Test it now!
 ========================================================
 
-text5
+The program can be found here: "https://tyz910.shinyapps.io/titanic"
