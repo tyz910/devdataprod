@@ -1,26 +1,21 @@
-# library(shinyapps)
-# shinyapps::deployApp('app', appName='courcera')
-
 library(shiny)
 
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("Hello Shiny!"),
-  
-  # Sidebar with a slider input for the number of bins
+  titlePanel("Would you have survived the Titanic?"),
+
   sidebarLayout(
     sidebarPanel(
-      sliderInput("bins",
-                  "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
+      p("Please pick your age, sex and economic status for view the survival statistics."),
+      selectInput("sex", "Sex:", c("Male", "Female")),
+      selectInput("age", "Age:", c("Adult", "Child")),
+      selectInput("class", "Class:", c("1st", "2nd", "3rd", "Crew")),
+      p("Try your luck by pressing button below."),
+      actionButton("guess", "Have I survived?")
     ),
-    
-    # Show a plot of the generated distribution
+
     mainPanel(
+      h3(textOutput("result")),
+      textOutput("percent"),
       plotOutput("distPlot")
     )
   )
